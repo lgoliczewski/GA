@@ -13,11 +13,11 @@ public class Main {
         //instance.generateRandomInstanceEUC_2D(100,1000); //generowanie 10 losowych punktow o wspolrzednych z przedzialu [0,40]
 
         Parser parser = new Parser();
-        File file = new File("data/ch150.tsp");
+        File file = new File("data/fl417.tsp");
         parser.setParameters(file,instance);
 
         Solution solution1, solution2, solution3, solution4;
-        solution1 = instance.getSolution();
+        //solution1 = instance.getSolution();
         //parser.parseSolution(file, solution);
 
         AlgorithmHolder alg = new AlgorithmHolder();
@@ -30,7 +30,7 @@ public class Main {
 
         solution1.printOrder();
         start = System.currentTimeMillis();
-        solution1 = alg.AccelTwoOptAlgorithm(instance, solution1);
+        solution1 = alg.NewAccelTwoOptAlgorithm(instance, solution1);
         end = System.currentTimeMillis();
         System.out.println("total distance: " + solution1.totalDistance());
         System.out.println("time : " + (end - start) + "ms");

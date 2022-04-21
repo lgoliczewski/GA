@@ -146,6 +146,81 @@ public class AlgorithmHolder {
         return holder;
     }
 
+    public Solution NewAccelTwoOptAlgorithm(Instance instance, Solution solution) throws IOException {
+
+        holder = solution;
+        int holderDistance = holder.totalDistance();
+        int currBestDistance = holderDistance;
+        int newDistance = currBestDistance;
+        Solution temp = holder.copy();
+
+        int[] swapDistances = new int[4]; // elementy o indeksach 0 i 1 będziemy odejmować, 2 i 3 dodawać;
+        boolean isImproved = true;
+
+        while (isImproved) {
+            isImproved = false;
+
+            int i = 1;
+            int j;
+            while(i<=holder.size && !isImproved){
+                j = i + 1;
+                while(j<=holder.size && !isImproved){
+
+                    candidate = holder.copy();
+                    candidate = invert(candidate,i,j);
+
+                    if (instance.getType().equals(Instance.type_enum.TSP) && !(i == 1 && j == holder.size)) {
+
+                        if (i > 1) {
+                            // odleglosc miedzy i-1-wszym oraz i-tym do odjecia
+                            swapDistances[0] = instance.edge_weight_matrix[holder.order.get(i - 2) - 1][holder.order.get(i - 1) - 1];
+                            // odleglosc miedzy i-1-wszym oraz j-tym do dodania
+                            swapDistances[2] = instance.edge_weight_matrix[holder.order.get(i - 2) - 1][holder.order.get(j - 1) - 1];
+                        } else {
+                            swapDistances[0] = instance.edge_weight_matrix[holder.order.get(holder.size - 1) - 1][holder.order.get(i - 1) - 1];
+                            swapDistances[2] = instance.edge_weight_matrix[holder.order.get(holder.size - 1) - 1][holder.order.get(j - 1) - 1];
+                        }
+
+                        if (j < holder.size) {
+                            // odleglosc miedzy j-tym raz j+1-wszym do odjecia
+                            swapDistances[1] = instance.edge_weight_matrix[holder.order.get(j - 1) - 1][holder.order.get(j) - 1];
+                            // odleglosc miedzy i-tym raz j+1-wszym do dodania
+                            swapDistances[3] = instance.edge_weight_matrix[holder.order.get(i - 1) - 1][holder.order.get(j) - 1];
+                        } else {
+                            swapDistances[1] = instance.edge_weight_matrix[holder.order.get(j - 1) - 1][holder.order.get(0) - 1];
+                            swapDistances[3] = instance.edge_weight_matrix[holder.order.get(i - 1) - 1][holder.order.get(0) - 1];
+                        }
+
+                        newDistance = currBestDistance - swapDistances[0] - swapDistances[1] + swapDistances[2] + swapDistances[3];
+
+                    } else if (instance.getType().equals(Instance.type_enum.ATSP)){
+                        newDistance = candidate.totalDistance();
+                    }
+
+                    if(newDistance<currBestDistance){
+                        temp = candidate.copy();
+                        currBestDistance = newDistance;
+                        //isImproved = true;
+                    }
+
+                    //System.out.println("i = " + i + ", j = " + j);
+                    j++;
+                }
+                i++;
+            }
+
+            if(currBestDistance < holderDistance) {
+                holder = temp.copy();
+                holderDistance = currBestDistance;
+                isImproved = true;
+            }
+        }
+
+        holder.frameTitle = "Accelerated 2-OPT Solution";
+
+        return holder;
+    }
+
     public Solution invert(Solution solution, int i, int j) {
         //System.out.println("Jestem in");
         if(i>j){
@@ -178,9 +253,10 @@ public class AlgorithmHolder {
         int newDistance = currBestDistance;
         Solution temp = holder.copy();
 
-        int maxSize = 1000;
+        int maxSize = 50;
         ArrayList<int[]> tabuList = new ArrayList<>();
         int k = 0, l = 0;
+        boolean isInTabuList;
 
         int[] swapDistances = new int[4]; // elementy o indeksach 0 i 1 będziemy odejmować, 2 i 3 dodawać;
         boolean isImproved = true;
@@ -194,7 +270,16 @@ public class AlgorithmHolder {
                 j = i + 1;
                 while(j<=holder.size && !isImproved){
 
-                    if (tabuList.contains(new int[]{i, j}) || tabuList.contains(new int[]{j, i})) {
+                    isInTabuList = false;
+                    for (int m = 0; m < tabuList.size(); m++) {
+                        if ((tabuList.get(m)[0] == i && tabuList.get(m)[1] == j) || (tabuList.get(m)[0] == j && tabuList.get(m)[1] == i)) {
+                            isInTabuList = true;
+                            break;
+                        }
+                    }
+
+                    if (isInTabuList == true) {
+                        //System.out.println("XD " + i + " " + j);
                         j++;
                         continue;
                     }
@@ -234,11 +319,6 @@ public class AlgorithmHolder {
                         temp = candidate.copy();
                         currBestDistance = newDistance;
                         k = i; l = j;
-                        /*isImproved = true;
-                        if(tabuList.size() == 20) {
-                            tabuList.remove(0);
-                        }
-                        tabuList.add(new int[]{i, j});*/
                     }
 
                     //System.out.println("i = " + i + ", j = " + j);
@@ -246,6 +326,7 @@ public class AlgorithmHolder {
                 }
                 i++;
             }
+
             if(currBestDistance < holderDistance) {
                 holder = temp.copy();
                 holderDistance = currBestDistance;
