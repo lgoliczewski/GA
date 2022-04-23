@@ -253,7 +253,7 @@ public class AlgorithmHolder {
         int newDistance = currBestDistance;
         Solution temp = holder.copy();
 
-        int maxSize = 50;
+        int maxSize = 100;
         ArrayList<int[]> tabuList = new ArrayList<>();
         int k = 0, l = 0;
         boolean isInTabuList;
@@ -261,14 +261,17 @@ public class AlgorithmHolder {
         int[] swapDistances = new int[4]; // elementy o indeksach 0 i 1 będziemy odejmować, 2 i 3 dodawać;
         boolean isImproved = true;
 
-        while (isImproved) {
+        int maxIter = 20;
+        int iter = 0;
+
+        while (isImproved && iter < maxIter) {
             isImproved = false;
 
             int i = 1;
             int j;
-            while(i<=holder.size && !isImproved){
+            while(i<=holder.size){
                 j = i + 1;
-                while(j<=holder.size && !isImproved){
+                while(j<=holder.size){
 
                     isInTabuList = false;
                     for (int m = 0; m < tabuList.size(); m++) {
@@ -279,7 +282,6 @@ public class AlgorithmHolder {
                     }
 
                     if (isInTabuList == true) {
-                        //System.out.println("XD " + i + " " + j);
                         j++;
                         continue;
                     }
@@ -336,14 +338,18 @@ public class AlgorithmHolder {
                 }
                 tabuList.add(new int[]{k, l});
 
-                System.out.print("{ ");
+                /*System.out.print("{ ");
                 for(int a = 0; a < tabuList.size(); a++) {
                     System.out.print("(" + tabuList.get(a)[0] + "," + tabuList.get(a)[1] + ")");
                 }
-                System.out.println(" }");
+                System.out.println(" }");*/
             }
 
+            iter++;
+
         }
+
+        System.out.println("iteracje: " + iter);
 
         holder.frameTitle = "Tabu Search Solution";
 
