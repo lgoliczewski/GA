@@ -405,7 +405,7 @@ public class AlgorithmHolder {
                         continue;
                     } else if (instance.getType().equals(Instance.type_enum.TSP) && !(i == 1 && j == holder.size)) {
 
-                        /*if (i > 1) {
+                        if (i > 1) {
                             // odleglosc miedzy i-1-wszym oraz i-tym do odjecia
                             swapDistances[0] = instance.edge_weight_matrix[holder.order.get(i - 2) - 1][holder.order.get(i - 1) - 1];
                             // odleglosc miedzy i-1-wszym oraz j-tym do dodania
@@ -426,8 +426,8 @@ public class AlgorithmHolder {
                         }
 
                         newDistance = holderDistance - swapDistances[0] - swapDistances[1] + swapDistances[2] + swapDistances[3];
-                        */
-                        newDistance = candidate.totalDistance();
+
+                        //newDistance = candidate.totalDistance();
                     } else if (instance.getType().equals(Instance.type_enum.ATSP)){
                         newDistance = candidate.totalDistance();
                     }
