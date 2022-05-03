@@ -13,7 +13,7 @@ public class Main {
         //instance.generateRandomInstanceEUC_2D(100,1000); //generowanie 10 losowych punktow o wspolrzednych z przedzialu [0,40]
 
         Parser parser = new Parser();
-        File file = new File("data/ch130.tsp");
+        File file = new File("data/tsp225.tsp");
         parser.setParameters(file,instance);
 
         Solution solution1, solution2, solution3, solution4;

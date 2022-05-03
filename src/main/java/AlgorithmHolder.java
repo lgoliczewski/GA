@@ -364,6 +364,9 @@ public class AlgorithmHolder {
         int bestCandDistance = holderDistance;
         int newDistance = holderDistance;
 
+        Solution best = holder.copy();
+        int bestDistance = holderDistance;
+
         int maxSize = 100;
         ArrayList<int[]> tabuList = new ArrayList<>();
         boolean isInTabuList;
@@ -371,12 +374,12 @@ public class AlgorithmHolder {
         int l = 0;
 
         int[] swapDistances = new int[4];
-        int maxIter = 2000;
+        int maxIter = 200;
         int iter = 0;
         while(iter < maxIter) {
             Solution candidate = holder.copy();
 
-            System.out.println(bestCandDistance);
+            //System.out.println(holderDistance);
 
             for (int i = 1; i <= instance.getDimension(); i++) {
                 for (int j = i + 1; j <= instance.getDimension(); j++) {
@@ -391,7 +394,11 @@ public class AlgorithmHolder {
 
                     if (isInTabuList == true) continue;
 
-                    candidate = invert(holder,i,j);
+                    //candidate = invert(holder,i,j);
+
+                    candidate = holder.copy();
+                    candidate = invert(candidate,i,j);
+
                     if (i == 1 && j == 2) {
                         bestCandDistance = candidate.totalDistance();
                         bestCandidate = candidate.copy();
@@ -419,9 +426,7 @@ public class AlgorithmHolder {
                         }
 
                         newDistance = holderDistance - swapDistances[0] - swapDistances[1] + swapDistances[2] + swapDistances[3];
-
-
-                         */
+                        */
                         newDistance = candidate.totalDistance();
                     } else if (instance.getType().equals(Instance.type_enum.ATSP)){
                         newDistance = candidate.totalDistance();
@@ -436,23 +441,38 @@ public class AlgorithmHolder {
                 }
             }
 
-            if (bestCandDistance < holderDistance) {
+            if (bestCandDistance < bestDistance) {
+                best = bestCandidate.copy();
+                bestDistance = bestCandDistance;
+            }
+
+            holder = bestCandidate.copy();
+            holderDistance = bestCandDistance;
+            if(tabuList.size() == maxSize) {
+                tabuList.remove(0);
+            }
+            tabuList.add(new int[]{k, l});
+
+            /*if (bestCandDistance < holderDistance) {
                 holder = bestCandidate.copy();
                 holderDistance = bestCandDistance;
                 if(tabuList.size() == maxSize) {
                     tabuList.remove(0);
                 }
                 tabuList.add(new int[]{k, l});
-            }
+            }*/
+
 
             iter++;
         }
 
         System.out.println("iteracje: " + iter);
 
+        System.out.println(holderDistance + " " + bestDistance);
+
         holder.frameTitle = "Tabu Search Solution";
 
-        return holder;
+        return best;
 
     }
 
