@@ -261,7 +261,7 @@ public class AlgorithmHolder {
         int[] swapDistances = new int[4]; // elementy o indeksach 0 i 1 będziemy odejmować, 2 i 3 dodawać;
         boolean isImproved = true;
 
-        int maxIter = 20;
+        int maxIter = 50;
         int iter = 0;
 
         while (isImproved && iter < maxIter) {
@@ -354,6 +354,106 @@ public class AlgorithmHolder {
         holder.frameTitle = "Tabu Search Solution";
 
         return holder;
+    }
+
+    public Solution NewTabuSearchAlgorithm(Instance instance, Solution solution) {
+
+        Solution holder = solution.copy();
+        Solution bestCandidate = holder.copy();
+        int holderDistance = holder.totalDistance();
+        int bestCandDistance = holderDistance;
+        int newDistance = holderDistance;
+
+        int maxSize = 100;
+        ArrayList<int[]> tabuList = new ArrayList<>();
+        boolean isInTabuList;
+        int k = 0;
+        int l = 0;
+
+        int[] swapDistances = new int[4];
+        int maxIter = 2000;
+        int iter = 0;
+        while(iter < maxIter) {
+            Solution candidate = holder.copy();
+
+            System.out.println(bestCandDistance);
+
+            for (int i = 1; i <= instance.getDimension(); i++) {
+                for (int j = i + 1; j <= instance.getDimension(); j++) {
+
+                    isInTabuList = false;
+                    for (int m = 0; m < tabuList.size(); m++) {
+                        if ((tabuList.get(m)[0] == i && tabuList.get(m)[1] == j) || (tabuList.get(m)[0] == j && tabuList.get(m)[1] == i)) {
+                            isInTabuList = true;
+                            break;
+                        }
+                    }
+
+                    if (isInTabuList == true) continue;
+
+                    candidate = invert(holder,i,j);
+                    if (i == 1 && j == 2) {
+                        bestCandDistance = candidate.totalDistance();
+                        bestCandidate = candidate.copy();
+                        continue;
+                    } else if (instance.getType().equals(Instance.type_enum.TSP) && !(i == 1 && j == holder.size)) {
+
+                        /*if (i > 1) {
+                            // odleglosc miedzy i-1-wszym oraz i-tym do odjecia
+                            swapDistances[0] = instance.edge_weight_matrix[holder.order.get(i - 2) - 1][holder.order.get(i - 1) - 1];
+                            // odleglosc miedzy i-1-wszym oraz j-tym do dodania
+                            swapDistances[2] = instance.edge_weight_matrix[holder.order.get(i - 2) - 1][holder.order.get(j - 1) - 1];
+                        } else {
+                            swapDistances[0] = instance.edge_weight_matrix[holder.order.get(holder.size - 1) - 1][holder.order.get(i - 1) - 1];
+                            swapDistances[2] = instance.edge_weight_matrix[holder.order.get(holder.size - 1) - 1][holder.order.get(j - 1) - 1];
+                        }
+
+                        if (j < holder.size) {
+                            // odleglosc miedzy j-tym raz j+1-wszym do odjecia
+                            swapDistances[1] = instance.edge_weight_matrix[holder.order.get(j - 1) - 1][holder.order.get(j) - 1];
+                            // odleglosc miedzy i-tym raz j+1-wszym do dodania
+                            swapDistances[3] = instance.edge_weight_matrix[holder.order.get(i - 1) - 1][holder.order.get(j) - 1];
+                        } else {
+                            swapDistances[1] = instance.edge_weight_matrix[holder.order.get(j - 1) - 1][holder.order.get(0) - 1];
+                            swapDistances[3] = instance.edge_weight_matrix[holder.order.get(i - 1) - 1][holder.order.get(0) - 1];
+                        }
+
+                        newDistance = holderDistance - swapDistances[0] - swapDistances[1] + swapDistances[2] + swapDistances[3];
+
+
+                         */
+                        newDistance = candidate.totalDistance();
+                    } else if (instance.getType().equals(Instance.type_enum.ATSP)){
+                        newDistance = candidate.totalDistance();
+                    }
+
+                    if (newDistance < bestCandDistance) {
+                        bestCandDistance = newDistance;
+                        bestCandidate = candidate.copy();
+                        k = i; l = j;
+                    }
+
+                }
+            }
+
+            if (bestCandDistance < holderDistance) {
+                holder = bestCandidate.copy();
+                holderDistance = bestCandDistance;
+                if(tabuList.size() == maxSize) {
+                    tabuList.remove(0);
+                }
+                tabuList.add(new int[]{k, l});
+            }
+
+            iter++;
+        }
+
+        System.out.println("iteracje: " + iter);
+
+        holder.frameTitle = "Tabu Search Solution";
+
+        return holder;
+
     }
 
     public Solution NearestNeighbor(Instance instance){
