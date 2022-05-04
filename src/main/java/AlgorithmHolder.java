@@ -356,7 +356,7 @@ public class AlgorithmHolder {
         return holder;
     }
 
-    public Solution NewTabuSearchAlgorithm(Instance instance, Solution solution) {
+    public Solution NewTabuSearchAlgorithm(Instance instance, Solution solution, int maxSize, int maxIter) {
 
         Solution holder = solution.copy();
         Solution bestCandidate = holder.copy();
@@ -367,14 +367,12 @@ public class AlgorithmHolder {
         Solution best = holder.copy();
         int bestDistance = holderDistance;
 
-        int maxSize = 100;
         ArrayList<int[]> tabuList = new ArrayList<>();
         boolean isInTabuList;
         int k = 0;
         int l = 0;
 
         int[] swapDistances = new int[4];
-        int maxIter = 200;
         int iter = 0;
         while(iter < maxIter) {
             Solution candidate = holder.copy();
@@ -383,7 +381,6 @@ public class AlgorithmHolder {
 
             for (int i = 1; i <= instance.getDimension(); i++) {
                 for (int j = i + 1; j <= instance.getDimension(); j++) {
-
                     isInTabuList = false;
                     for (int m = 0; m < tabuList.size(); m++) {
                         if ((tabuList.get(m)[0] == i && tabuList.get(m)[1] == j) || (tabuList.get(m)[0] == j && tabuList.get(m)[1] == i)) {
@@ -466,11 +463,11 @@ public class AlgorithmHolder {
             iter++;
         }
 
-        System.out.println("iteracje: " + iter);
+        //System.out.println("iteracje: " + iter);
 
-        System.out.println(holderDistance + " " + bestDistance);
+        //System.out.println(holderDistance + " " + bestDistance);
 
-        holder.frameTitle = "Tabu Search Solution";
+        //holder.frameTitle = "Tabu Search Solution";
 
         return best;
 
