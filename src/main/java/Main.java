@@ -9,13 +9,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        Tests t = new Tests();
-        t.startSolutionTest();
-        //Instance instance = new Instance();
+        //Tests t = new Tests();
+        //t.startSolutionTest();
+        Instance instance = new Instance();
         //instance.generateRandomInstanceEUC_2D(100,1000); //generowanie 10 losowych punktow o wspolrzednych z przedzialu [0,40]
 
-        /*Parser parser = new Parser();
-        File file = new File("data/tsp225.tsp");
+        Parser parser = new Parser();
+        File file = new File("data/u159.tsp");
         parser.setParameters(file,instance);
 
         Solution solution1, solution2, solution3, solution4;
@@ -31,38 +31,38 @@ public class Main {
         solution3 = solution1.copy();
         solution4 = solution1.copy();
 
-        System.out.println("total distance: " + solution1.totalDistance());
+        System.out.println("start distance: " + solution1.totalDistance() + "\n");
 
         //solution1.printOrder();
         start = System.currentTimeMillis();
-        solution1 = alg.NewTabuSearchAlgorithm(instance, solution1,2000,2000);
+        solution1 = alg.NewTabuSearchAlgorithm(instance, solution1,50,100);
         end = System.currentTimeMillis();
         System.out.println("New tabu");
         System.out.println("total distance: " + solution1.totalDistance());
-        System.out.println("time : " + (end - start) + "ms");
+        System.out.println("time : " + (end - start) + "ms\n");
 
         //solution2.printOrder();
         start = System.currentTimeMillis();
-        solution2 = alg.TabuSearchAlgorithm(instance, solution2);
+        solution2 = alg.NewTabuSearchAlgorithm(instance, solution2, 50, 100, "invert");
         end = System.currentTimeMillis();
-        System.out.println("Tabu");
+        System.out.println("New Tabu - move: invert");
         System.out.println("total distance: " + solution2.totalDistance());
-        System.out.println("time : " + (end - start) + "ms");
+        System.out.println("time : " + (end - start) + "ms\n");
 
         //solution3.printOrder();
         start = System.currentTimeMillis();
-        solution3 = alg.NewAccelTwoOptAlgorithm(instance, solution3);
+        solution3 = alg.NewTabuSearchAlgorithm(instance, solution3, 50, 100, "swap");
         end = System.currentTimeMillis();
-        System.out.println("New 2opt");
+        System.out.println("New Tabu - move: swap");
         System.out.println("total distance: " + solution3.totalDistance());
-        System.out.println("time : " + (end - start) + "ms");
+        System.out.println("time : " + (end - start) + "ms\n");
 
         start = System.currentTimeMillis();
-        solution4 = alg.AccelTwoOptAlgorithm(instance, solution4);
+        solution4 = alg.NewTabuSearchAlgorithm(instance, solution4, 50, 100, "insert");
         end = System.currentTimeMillis();
-        System.out.println("2 Opt");
+        System.out.println("New Tabu - move: insert");
         System.out.println("total distance: " + solution4.totalDistance());
-        System.out.println("time : " + (end - start) + "ms");
+        System.out.println("time : " + (end - start) + "ms\n");
 
         //solution.visualize();
 
@@ -71,7 +71,7 @@ public class Main {
         //writer.saveToFile(solution);
 
         //Tests t = new Tests();
-        //t.runTests();*/
+        //t.runTests();
 
     }
 }

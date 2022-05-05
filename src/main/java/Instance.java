@@ -129,6 +129,13 @@ public class Instance implements Serializable {
                 +((node_coord_list.get(n).getY()-node_coord_list.get(m).getY())*(node_coord_list.get(n).getY()-node_coord_list.get(m).getY())))+0.5);
     }
 
+    public int distance(Solution solution, int i, int j) {
+        if (i == 0) i = dimension;
+        if (j == dimension + 1) j = 1;
+
+        return this.edge_weight_matrix[solution.order.get(i - 1) - 1][solution.order.get(j - 1) - 1];
+    }
+
     public void printMatrix(int limit){
         int i = 0;
         int j = 0;

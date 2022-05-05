@@ -90,6 +90,94 @@ public class Solution implements Serializable {
         return sum;
     }
 
+    public int totalDistanceAfterInvert(Instance instance, Solution holder, int holderDistance, int bestCandDistance, int i, int j) {
+        int newDistance = bestCandDistance;
+
+        int swapDistances[] = new int[4];
+
+        if (instance.getType().equals(Instance.type_enum.TSP) && !(i == 1 && j == holder.size)) {
+
+            swapDistances[0] = instance.distance(holder, i-1, i);
+            swapDistances[1] = instance.distance(holder, j, j+1);
+            swapDistances[2] = instance.distance(holder, i-1, j);
+            swapDistances[3] = instance.distance(holder, i, j+1);
+
+            newDistance = holderDistance - swapDistances[0] - swapDistances[1] + swapDistances[2] + swapDistances[3];
+
+        } else if (instance.getType().equals(Instance.type_enum.ATSP)){
+            newDistance = this.totalDistance();
+        }
+
+        return newDistance;
+    }
+
+    public int totalDistanceAfterSwap(Instance instance, Solution holder, int holderDistance, int i, int j) {
+        int newDistance = holderDistance;
+        int subtractDist[] = new int[4];
+        int addDist[] = new int[4];
+
+        if (j-i == 1) {
+            subtractDist[0] = instance.distance(holder, i-1, i);
+            subtractDist[1] = instance.distance(holder, i, j);
+            subtractDist[2] = instance.distance(holder, j, j+1);
+
+            addDist[0] = instance.distance(holder, i-1, j);
+            addDist[1] = instance.distance(holder, j, i);
+            addDist[2] = instance.distance(holder, i, j+1);
+        } else if (j-i == holder.size - 1) {
+            subtractDist[0] = instance.distance(holder, j, i);
+            subtractDist[1] = instance.distance(holder, i, i+1);
+            subtractDist[2] = instance.distance(holder, j-1, j);
+
+            addDist[0] = instance.distance(holder, i, j);
+            addDist[1] = instance.distance(holder, j, i+1);
+            addDist[2] = instance.distance(holder, j-1, i);
+        } else {
+            subtractDist[0] = instance.distance(holder, i-1, i);
+            subtractDist[1] = instance.distance(holder, i, i+1);
+            subtractDist[2] = instance.distance(holder, j-1, j);
+            subtractDist[3] = instance.distance(holder, j, j+1);
+
+            addDist[0] = instance.distance(holder, i-1, j);
+            addDist[1] = instance.distance(holder, j, i+1);
+            addDist[2] = instance.distance(holder, j-1, i);
+            addDist[3] = instance.distance(holder, i, j+1);
+        }
+
+        for (int k = 0; k < 4; k++) {
+            newDistance -= subtractDist[k];
+            newDistance += addDist[k];
+            if (k == 2 && (j-i == 1 || j-i == holder.size - 1)) break;
+        }
+        //System.out.print(newDistance + " ");
+
+        return newDistance;
+    }
+
+    public int totalDistanceAfterInsert(Instance instance, Solution holder, int holderDistance, int bestCandDistance, int i, int j) {
+
+        if(i == j || j-i == 1 || i-j == holder.size - 1) return bestCandDistance;
+
+        int newDistance = holderDistance;
+        int subtractDist[] = new int[3];
+        int addDist[] = new int[3];
+
+        subtractDist[0] = instance.distance(holder, i-1, i);
+        subtractDist[1] = instance.distance(holder, i, i+1);
+        subtractDist[2] = instance.distance(holder, j-1, j);
+
+        addDist[0] = instance.distance(holder, i-1, i+1);
+        addDist[1] = instance.distance(holder, i, j);
+        addDist[2] = instance.distance(holder, j-1, i);
+
+        for (int k = 0; k < 3; k++) {
+            newDistance -= subtractDist[k];
+            newDistance += addDist[k];
+        }
+
+        return newDistance;
+    }
+
     public void printMatrix(){
         int i = 0;
         int j = 0;
