@@ -9,13 +9,15 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        //Tests t = new Tests();
+        Tests t = new Tests();
         //t.startSolutionTest();
-        Instance instance = new Instance();
+        t.moveTypeTest();
+        //Instance instance = new Instance();
         //instance.generateRandomInstanceEUC_2D(100,1000); //generowanie 10 losowych punktow o wspolrzednych z przedzialu [0,40]
 
+        /*
         Parser parser = new Parser();
-        File file = new File("data/u159.tsp");
+        File file = new File("data/ftv47.atsp");
         parser.setParameters(file,instance);
 
         Solution solution1, solution2, solution3, solution4;
@@ -56,6 +58,7 @@ public class Main {
         System.out.println("New Tabu - move: swap");
         System.out.println("total distance: " + solution3.totalDistance());
         System.out.println("time : " + (end - start) + "ms\n");
+        solution3.printOrder();
 
         start = System.currentTimeMillis();
         solution4 = alg.NewTabuSearchAlgorithm(instance, solution4, 50, 100, "insert");
@@ -63,7 +66,8 @@ public class Main {
         System.out.println("New Tabu - move: insert");
         System.out.println("total distance: " + solution4.totalDistance());
         System.out.println("time : " + (end - start) + "ms\n");
-
+        solution4.printOrder();
+        */
         //solution.visualize();
 
         //instance.setName("instance1");

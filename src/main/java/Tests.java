@@ -329,8 +329,69 @@ public class Tests {
 
     }
 
+    public void moveTypeTestRandom() throws IOException {
+
+        int size = 10;
+        FileWriter outputFile1 = new FileWriter("diffMoveTypes/TSwithDifferentMoveTypes.csv");
+        CSVWriter writer = new CSVWriter(outputFile1);
+        String[] header1 = {"size" ,"invert", "swap", "insert", "ms = 50, miter = 100"};
+        writer.writeNext(header1);
+
+        FileWriter outputFileInvert = new FileWriter("diffMoveTypes/invert.csv");
+        CSVWriter writerInvert = new CSVWriter(outputFileInvert);
+
+        FileWriter outputFileSwap = new FileWriter("diffMoveTypes/swap.csv");
+        CSVWriter writerSwap = new CSVWriter(outputFileSwap);
+
+        FileWriter outputFileInsert = new FileWriter("diffMoveTypes/insert.csv");
+        CSVWriter writerInsert = new CSVWriter(outputFileInsert);
+        while(size<=300){
+            AlgorithmHolder ah = new AlgorithmHolder();
+            Instance instance = new Instance();
+            instance.generateRandomInstanceEUC_2D(size,5*size);
+            Solution startSolution = instance.getSolution();
+            startSolution = ah.ExNearestNeighbor(instance);
+            int startSolutionDistance = startSolution.totalDistance();
+
+            Solution solutionInvert = ah.NewTabuSearchAlgorithm(instance, startSolution,50,100, "invert");
+            Solution solutionSwap = ah.NewTabuSearchAlgorithm(instance, startSolution,50,100, "swap");
+            Solution solutionInsert = ah.NewTabuSearchAlgorithm(instance, startSolution,50,100, "insert");
+
+            String[] dataAll = {String.valueOf(size), String.valueOf(solutionInvert.totalDistance()),
+                    String.valueOf(solutionSwap.totalDistance()), String.valueOf(solutionInsert.totalDistance())};
+            writer.writeNext(dataAll);
+
+            String[] dataInvert = {String.valueOf(size), String.valueOf(startSolutionDistance), String.valueOf(solutionInvert.totalDistance())};
+            writerInvert.writeNext(dataInvert);
+
+            String[] dataSwap = {String.valueOf(size), String.valueOf(startSolutionDistance), String.valueOf(solutionSwap.totalDistance())};
+            writerSwap.writeNext(dataSwap);
+
+            String[] dataInsert = {String.valueOf(size), String.valueOf(startSolutionDistance), String.valueOf(solutionInsert.totalDistance())};
+            writerInsert.writeNext(dataInsert);
+
+            System.out.println("invert = " + solutionInvert.totalDistance() + ", swap = " + solutionSwap.totalDistance() +
+                    ", insert = " + solutionInsert.totalDistance());
+            System.out.println(" - - - - - - - - - - - - - - - - - - - - - -");
+            size = size + 10;
+
+        }
+
+        writer.close();
+        writerInvert.close();
+        writerSwap.close();
+        writerInsert.close();
+
+
+
+    }
+
     public void startSolutionTest() throws IOException {
             startSolutionForInstanceTestRandom();
+    }
+
+    public void moveTypeTest() throws IOException{
+        moveTypeTestRandom();
     }
 
 }
