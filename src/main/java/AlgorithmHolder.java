@@ -530,7 +530,7 @@ public class AlgorithmHolder {
 
                     isInTabuList = false;
                     for (int m = 0; m < tabuList.size(); m++) {
-                        if ((tabuList.get(m)[0] == i && tabuList.get(m)[1] == j) || (tabuList.get(m)[0] == j && tabuList.get(m)[1] == i)) {
+                        if ((tabuList.get(m)[0] == i && tabuList.get(m)[1] == j)/* || (tabuList.get(m)[0] == j && tabuList.get(m)[1] == i)*/) {
                             isInTabuList = true;
                             break;
                         }

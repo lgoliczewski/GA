@@ -15,8 +15,8 @@ public class Main {
         //Instance instance = new Instance();
         //instance.generateRandomInstanceEUC_2D(100,1000); //generowanie 10 losowych punktow o wspolrzednych z przedzialu [0,40]
 
-        /*
-        Parser parser = new Parser();
+
+        /*Parser parser = new Parser();
         File file = new File("data/ftv47.atsp");
         parser.setParameters(file,instance);
 
@@ -67,7 +67,9 @@ public class Main {
         System.out.println("total distance: " + solution4.totalDistance());
         System.out.println("time : " + (end - start) + "ms\n");
         solution4.printOrder();
-        */
+
+         */
+
         //solution.visualize();
 
         //instance.setName("instance1");
