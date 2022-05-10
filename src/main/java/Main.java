@@ -9,15 +9,15 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        Tests t = new Tests();
+        //Tests t = new Tests();
         //t.startSolutionTest();
-        t.moveTypeTest();
-        //Instance instance = new Instance();
+        //t.moveTypeTest();
+        Instance instance = new Instance();
         //instance.generateRandomInstanceEUC_2D(100,1000); //generowanie 10 losowych punktow o wspolrzednych z przedzialu [0,40]
 
 
-        /*Parser parser = new Parser();
-        File file = new File("data/ftv47.atsp");
+        Parser parser = new Parser();
+        File file = new File("data/tsp225.tsp");
         parser.setParameters(file,instance);
 
         Solution solution1, solution2, solution3, solution4;
@@ -37,7 +37,7 @@ public class Main {
 
         //solution1.printOrder();
         start = System.currentTimeMillis();
-        solution1 = alg.NewTabuSearchAlgorithm(instance, solution1,50,100);
+        solution1 = alg.NewTabuSearchAlgorithm(instance, solution1,50,100, "swap");
         end = System.currentTimeMillis();
         System.out.println("New tabu");
         System.out.println("total distance: " + solution1.totalDistance());
@@ -45,14 +45,14 @@ public class Main {
 
         //solution2.printOrder();
         start = System.currentTimeMillis();
-        solution2 = alg.NewTabuSearchAlgorithm(instance, solution2, 50, 100, "invert");
+        solution2 = alg.NewTabuSearchAlgorithmWithKick(instance, solution2, 50, 100, "swap", 5, 50);
         end = System.currentTimeMillis();
         System.out.println("New Tabu - move: invert");
         System.out.println("total distance: " + solution2.totalDistance());
         System.out.println("time : " + (end - start) + "ms\n");
 
         //solution3.printOrder();
-        start = System.currentTimeMillis();
+        /*start = System.currentTimeMillis();
         solution3 = alg.NewTabuSearchAlgorithm(instance, solution3, 50, 100, "swap");
         end = System.currentTimeMillis();
         System.out.println("New Tabu - move: swap");
@@ -66,9 +66,9 @@ public class Main {
         System.out.println("New Tabu - move: insert");
         System.out.println("total distance: " + solution4.totalDistance());
         System.out.println("time : " + (end - start) + "ms\n");
-        solution4.printOrder();
+        solution4.printOrder();*/
 
-         */
+
 
         //solution.visualize();
 
