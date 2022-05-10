@@ -1,0 +1,17 @@
+T1 = readtable('ch130L30.csv');
+T2 = readtable('ch130L60.csv');
+T3 = readtable('ch130L90.csv');
+T4 = readtable('ch130L120.csv');
+T5 = readtable('ch130L150.csv');
+T6 = readtable('ch130L180.csv');
+T7 = readtable('ch130L210.csv');
+T8 = readtable('ch130L240.csv');
+T9 = readtable('ch130L270.csv');
+T10 = readtable('ch130L300.csv');
+
+t = T1(:,1) ; 
+x = T2(:,2) ; 
+y = T3(:,3) ; 
+z = data(:,4) ;
+plot(t,x'r',t,y,'b',t,z,'g')
+legend('x','y','z')
