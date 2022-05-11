@@ -1,13 +1,13 @@
-T1 = readtable('ch130L30.csv');
-T2 = readtable('ch130L60.csv');
-T3 = readtable('ch130L90.csv');
-T4 = readtable('ch130L120.csv');
-T5 = readtable('ch130L150.csv');
-T6 = readtable('ch130L180.csv');
-T7 = readtable('ch130L210.csv');
-T8 = readtable('ch130L240.csv');
-T9 = readtable('ch130L270.csv');
-T10 = readtable('ch130L300.csv');
+T1 = readtable('ftv47L30.csv');
+T2 = readtable('ftv47L60.csv');
+T3 = readtable('ftv47L90.csv');
+T4 = readtable('ftv47L120.csv');
+T5 = readtable('ftv47L150.csv');
+T6 = readtable('ftv47L180.csv');
+T7 = readtable('ftv47L210.csv');
+T8 = readtable('ftv47L240.csv');
+T9 = readtable('ftv47L270.csv');
+T10 = readtable('ftv47L300.csv');
 
 
 K1 = table2array(T1);
@@ -47,10 +47,8 @@ y10 = K10(:,2);
 P = plot(x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10);
 xlabel('Długość listy tabu') 
 ylabel('Wartość funkcji celu najlepszego rozwiązania') 
-[TT,TT2] = title('Wartość funkcji celu dla różnych ilości iteracji oraz różnych długości list tabu dla instancji ch130','FontSize',16)
+[TT,TT2] = title('Wartość funkcji celu dla różnych ilości iteracji oraz różnych długości list tabu dla instancji ftv47','FontSize',16)
 legend({'i = 30','i = 60','i = 90','i = 120','i = 150','i = 180','i = 210','i = 240','i = 270','i = 300'},'Location','northeast')
 set(P,"Marker",".");
 grid on;
-xticks([0,25,50,75,100,125,150,175,200,225,250,275,300])
-yticks([6450,6475,6500,6525,6550,6575,6600,6625,6650,6675,6700,6725])
-ylim([6440,6750])
+xlim([0,100])
