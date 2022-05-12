@@ -233,6 +233,9 @@ public class AlgorithmHolder {
         int[] pom =  new int[j-i+1];
         int it = 0;
         while(it<=j-i){
+            if(solution == null){
+                System.out.println("W środku null");
+            }
             pom[it] = solution.order.get(it+i-1); //O(1)
             it++;
         }
@@ -522,6 +525,7 @@ public class AlgorithmHolder {
         int iter = 0;
 
         int noImprove = 0;
+        candidate = holder.copy();
         while(iter < maxIter) { // maxIter
             if (noImprove > maxNoImprove) {
                 Random newRandom = new Random();

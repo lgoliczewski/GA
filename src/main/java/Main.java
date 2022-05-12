@@ -9,8 +9,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        //Tests t = new Tests();
-        //t.startSolutionTest();
+        Tests t = new Tests();
+        t.getMatlabText();
+        //t.KickTest();
         //t.moveTypeTest();
         Instance instance = new Instance();
         //instance.generateRandomInstanceEUC_2D(100,1000); //generowanie 10 losowych punktow o wspolrzednych z przedzialu [0,40]

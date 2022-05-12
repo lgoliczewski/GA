@@ -8,6 +8,35 @@ import java.util.Arrays;
 
 public class Tests {
 
+    public void getMatlabText(){
+
+        int i = 1;
+        while(i<100){
+            System.out.println("T" + i + " = readtable('ft53K" + i + "300.csv');");
+            i++;
+        }
+
+        i = 1;
+        while(i<100){
+            System.out.println("K" + i + " = table2array(T" + i + ");");
+            i++;
+        }
+
+        i = 1;
+        System.out.print("M = [");
+        while(i<100){
+            System.out.print(i + ",min(K" + i + "(:,2));");
+            i++;
+        }
+        System.out.print("];");
+
+
+
+
+
+    }
+
+
     public void runTests() throws IOException {
 
         File file = new File("data/u574.tsp");
@@ -329,6 +358,46 @@ public class Tests {
 
     }
 
+    public void KickTestForInstance(String inputFile, String outFile, int iter, int length, int kickSize, int maxnIter) throws IOException {
+
+        AlgorithmHolder ah = new AlgorithmHolder();
+        Instance instance = new Instance();
+        Parser parser = new Parser();
+        File file = new File(inputFile);
+        parser.setParameters(file,instance);
+        Solution solution = instance.getSolution();
+        Solution solution2 = solution.copy();
+        solution2 = ah.NewTabuSearchAlgorithm(instance,solution2,40,150);
+        System.out.println("td = " + solution2.totalDistance());
+        FileWriter outputFile = new FileWriter(outFile);
+        CSVWriter writer = new CSVWriter(outputFile);
+        System.out.println("Dotarłem");
+        int nIter = 1;
+        while(nIter<maxnIter){
+            solution2 = solution.copy();
+            solution2 = ah.NewTabuSearchAlgorithmWithKick(instance, solution2,length,iter,"invert",nIter,kickSize);
+            System.out.println("nIter = " + nIter + ", v = " + solution2.totalDistance());
+            String[] dataToWrite = {String.valueOf(nIter), String.valueOf(solution2.totalDistance())};
+            writer.writeNext(dataToWrite);
+            nIter++;
+        }
+        writer.close();
+    }
+
+    public void KickTest() throws IOException {
+
+
+
+        int kickSize = 30;
+        while(kickSize<100){
+            KickTestForInstance("data/ft53.atsp","kickTest/ft53K" + kickSize + "300.csv",150,40,kickSize,100);
+            kickSize = kickSize + 1;
+        }
+
+        //KickTestForInstance("data/ft53.atsp","kickTest/pr144M300.csv",300,40,100,100);
+
+    }
+
     public void moveTypeTestRandom() throws IOException {
 
         int size = 10;
@@ -381,8 +450,6 @@ public class Tests {
         writerInvert.close();
         writerSwap.close();
         writerInsert.close();
-
-
 
     }
 
