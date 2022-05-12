@@ -1,3 +1,4 @@
+clear all;
 T1 = readtable('ch130L30.csv');
 T2 = readtable('ch130L60.csv');
 T3 = readtable('ch130L90.csv');

@@ -13,10 +13,11 @@ public class Main {
         t.getMatlabText();
         //t.KickTest();
         //t.moveTypeTest();
-        Instance instance = new Instance();
+        //Instance instance = new Instance();
         //instance.generateRandomInstanceEUC_2D(100,1000); //generowanie 10 losowych punktow o wspolrzednych z przedzialu [0,40]
 
 
+        /*
         Parser parser = new Parser();
         File file = new File("data/tsp225.tsp");
         parser.setParameters(file,instance);
@@ -51,6 +52,8 @@ public class Main {
         System.out.println("New Tabu - move: invert");
         System.out.println("total distance: " + solution2.totalDistance());
         System.out.println("time : " + (end - start) + "ms\n");
+
+         */
 
         //solution3.printOrder();
         /*start = System.currentTimeMillis();

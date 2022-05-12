@@ -1,3 +1,4 @@
+clear all;
 T1 = readtable('ftv47L30.csv');
 T2 = readtable('ftv47L60.csv');
 T3 = readtable('ftv47L90.csv');
@@ -42,7 +43,8 @@ y9 = K9(:,2);
 x10 = K10(:,1);
 y10 = K10(:,2);
 
-
+a = min(K1(:, 2));
+M = [min(K1(:, 2)), ...];
 
 P = plot(x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,x7,y7,x8,y8,x9,y9,x10,y10);
 xlabel('Długość listy tabu') 
