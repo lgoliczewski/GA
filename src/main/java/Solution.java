@@ -15,6 +15,7 @@ public class Solution implements Serializable {
 
     public Instance instance;
     public int size;
+    public int totalDistance;
     public ArrayList<Point2D.Double> pointList; // na wypadek euklidesowego i wizualizacji
 
     public ArrayList<Integer> order;
@@ -201,6 +202,14 @@ public class Solution implements Serializable {
         v = new Visualization(this);
         frame.add(v);
 
+    }
+
+    public void updateDistance(){
+        totalDistance = this.totalDistance();
+    }
+
+    public int getTotalDistance(){
+        return totalDistance;
     }
 
 }
