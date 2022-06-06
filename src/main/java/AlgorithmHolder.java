@@ -32,22 +32,39 @@ public class AlgorithmHolder {
         return finalSolution;
     }
 
+    public Solution KRandomAlgorithm2(Solution solution, int k) {
+        int i = 0;
+        Solution holder = null;
+        while (i < k) {
+            solution.randomOrder();
+            int d = solution.totalDistance();
+            if (i == 0) {
+                distance = d;
+                holder = solution.copy();
+            } else if(d < distance) {
+                distance = d;
+                holder = solution.copy();
+            }
+            i++;
+        }
+
+        Solution finalSolution = holder.copy();
+        finalSolution.frameTitle = "k-Random Solution";
+        return finalSolution;
+    }
+
     public Solution TwoOptAlgorithm(Instance instance, Solution solution) throws IOException {
 
         holder = solution;                                                          // O(n^2)
         int currBestDistance = holder.totalDistance(); // O(n)                      // O(1)
         int newDistance = currBestDistance;                                         // O(1)
-
-        boolean isImproved = true;                                                  // O(1)
-
-        while (isImproved) {
-            isImproved = false;
+         // O(1)
 
             int i = 1;                                                              // O(1)
             int j;                                                                  // O(1)
-            while(i<=holder.size && !isImproved){
+            while(i<=holder.size){
                 j = i + 1;
-                while(j<=holder.size && !isImproved){
+                while(j<=holder.size){
 
                     candidate = holder.copy();                                      // O(n^2)
                     candidate = invert(candidate,i,j); //O(j-i) = O(n)              // O(j-1) = O(n)
@@ -55,13 +72,12 @@ public class AlgorithmHolder {
                     if(newDistance<currBestDistance){
                         holder = candidate.copy();
                         currBestDistance = newDistance;
-                        isImproved = true;
                     }
                     j++;
                 }
                 i++;
             }
-        }
+
 
         holder.frameTitle = "2-OPT Solution";
 

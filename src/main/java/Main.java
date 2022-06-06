@@ -7,24 +7,14 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        File file = new File("data/gr17.tsp");
+        File file = new File("data/eil76.tsp");
         Parser parser = new Parser();
         Instance instance = new Instance();
         parser.setParameters(file, instance);
-
-        GA ga = new GA(instance,200);
-        Solution solution1 = instance.getSolution();
-        solution1.randomOrder();
-        solution1.printOrder();
-
-        Solution solution2 = instance.getSolution();
-        solution2.randomOrder();
-        solution2.printOrder();
-
-        Solution solution3 = ga.OBX(solution1, solution2, 0.5);
-        solution3.printOrder();
+        GA ga = new GA(instance,400);
+        ga.geneticAlgorithm(100000000);
 
 
     }

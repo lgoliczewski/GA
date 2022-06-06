@@ -12,7 +12,7 @@ public class Solution implements Serializable {
 
     public Visualization v;
     public String frameTitle = "";
-
+    public int age;
     public Instance instance;
     public int size;
     public int totalDistance;
@@ -38,7 +38,9 @@ public class Solution implements Serializable {
         }
     }
 
-    public Solution() {}
+    public Solution() {
+        this.age = 0;
+    }
 
     public Solution copy() {
         Solution s = new Solution();
@@ -47,6 +49,8 @@ public class Solution implements Serializable {
         s.size = this.size;
         s.pointList = this.pointList;
         s.order = new ArrayList<>();
+        s.age = this.age;
+        s.totalDistance = this.totalDistance;
 
         for(int i = 0; i < this.order.size(); i++) {
             s.order.add(this.order.get(i));
@@ -205,11 +209,16 @@ public class Solution implements Serializable {
     }
 
     public void updateDistance(){
-        totalDistance = this.totalDistance();
+        this.totalDistance = this.totalDistance();
+        System.out.print(this.totalDistance + " ");
     }
 
     public int getTotalDistance(){
         return totalDistance;
+    }
+
+    public int getAge(){
+        return age;
     }
 
 }
