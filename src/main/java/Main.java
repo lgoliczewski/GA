@@ -13,8 +13,8 @@ public class Main {
         Parser parser = new Parser();
         Instance instance = new Instance();
         parser.setParameters(file, instance);
-        GA ga = new GA(instance,400);
-        ga.geneticAlgorithm(100000000);
+        GA ga = new GA(instance,30);
+        ga.geneticAlgorithm(100000);
 
 
     }

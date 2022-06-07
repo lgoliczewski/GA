@@ -21,7 +21,7 @@ public class GA {
         population = new ArrayList<>();
         Solution solution = instance.getSolution();
         Random random = new Random();
-        Thread thread = new Thread();
+        //Thread thread = new Thread();
 
         for(int i = 0; i<numberOfPeople; i++){
             Solution newSolution = solution.copy();
@@ -31,7 +31,7 @@ public class GA {
                 System.out.println("Przed = " + newSolution.totalDistance());
                 Solution newSolutionFor2OPT = algorithmHolder.NewAccelTwoOptAlgorithm(instance,newSolution);
                 System.out.println("Po = " + newSolutionFor2OPT.totalDistance());
-                thread.sleep(1000);
+                //thread.sleep(1000);
                 population.add(newSolutionFor2OPT);
             }
             else{
@@ -107,16 +107,129 @@ public class GA {
         return newPopulation;
     }
 
+    public ArrayList<Solution> rouletteSelection() {
+        System.out.print("Przed selekcją: ");
+        population.sort(Comparator.comparingInt(Solution::totalDistance));
+        printPopulation(population);
+        ArrayList<Solution> newPopulation = new ArrayList<>();
+        int eliteN = (int)Math.floor(Math.pow(numberOfPeople, 1.0/3.0));
+        //int eliteN = 0;
+        for (int i = 0; i < eliteN; i++) {
+            newPopulation.add(population.get(i));
+        }
+
+        long sum = 0;
+        for (Solution s : population) {
+            sum += s.totalDistance();
+        }
+        double divs[] = new double[numberOfPeople - eliteN];
+        double temp = 0;
+        for (int i = 0; i < numberOfPeople - eliteN; i++) {
+            divs[i] = temp;
+            //System.out.print(divs[i] + " ");
+            temp += (double)population.get(i + eliteN).totalDistance()/sum;
+        }
+        //System.out.println(" ");
+        for (int i = eliteN; i < numberOfPeople/2; i++) {
+            Solution chosen = new Solution();
+            do {
+                double x = random.nextDouble();
+                for (int j = 0; j < numberOfPeople - eliteN; j++) {
+                    if (x < divs[j]) {
+                        chosen = population.get(j-1 + eliteN);
+                        break;
+                    } else if (j == numberOfPeople - eliteN - 1) {
+                        chosen = population.get(j + eliteN);
+                        break;
+                    }
+                }
+            } while (newPopulation.contains(chosen));
+            newPopulation.add(chosen);
+        }
+
+        System.out.print("Po selekcji: ");
+        printPopulation(newPopulation);
+        System.out.println(" ");
+
+        return newPopulation;
+    }
+
+    public ArrayList<Solution> tournamentSelection(double prob) {
+        System.out.print("Przed selekcją: ");
+        population.sort(Comparator.comparingInt(Solution::totalDistance));
+        printPopulation(population);
+
+        ArrayList<Solution> newPopulation = new ArrayList<>();
+        //int eliteN = (int)Math.floor(Math.pow(numberOfPeople, 1.0/5.0));
+        int eliteN = 0;
+        for (int i = 0; i < eliteN; i++) {
+            newPopulation.add(population.get(i));
+        }
+
+        ArrayList<Solution> noElitePopulation = new ArrayList<>(population);
+        for (int i = eliteN; i < numberOfPeople; i++) {
+            noElitePopulation.add(population.get(i));
+        }
+
+        Collections.shuffle(noElitePopulation);
+        int tournamentSize = 4;
+        ArrayList<Solution> tournamentPopulation = new ArrayList<>();
+        //Solution winner = new Solution();
+        //int winnerDistance = Integer.MAX_VALUE;
+        int winners = (int)Math.floor(Math.pow(numberOfPeople, 1.0/2.0));
+        int n = 0;
+        for (int i = 0; i < numberOfPeople - eliteN; i++) {
+            tournamentPopulation.add(noElitePopulation.get(i));
+            //int distance = population.get(i).totalDistance();
+            //if (distance < winnerDistance) {
+                //winnerDistance = distance;
+                //winner = population.get(i).copy();
+            //}
+            //if (i > 0 && (i + 1) % tournamentSize == 0) {
+                //newPopulation.add(winner);
+                //winnerDistance = Integer.MAX_VALUE;
+            //}
+            if (i > 0 && (i + 1) % tournamentSize == 0) {
+                tournamentPopulation.sort(Comparator.comparingInt(Solution::totalDistance));
+                double currProb = prob;
+                for (int j = 0; j < tournamentSize; j++) {
+                    if (random.nextDouble() < currProb) {
+                        newPopulation.add(tournamentPopulation.get(j));
+                        n++;
+                    }
+                    currProb *= 1-prob;
+                }
+                if(n == winners) break;
+                if (newPopulation.size() == numberOfPeople/2)
+                    break;
+                tournamentPopulation = new ArrayList<>();
+            }
+        }
+        while (newPopulation.size() < numberOfPeople/2) {
+            int idx = random.nextInt(numberOfPeople);
+            while (newPopulation.contains(noElitePopulation.get(idx))) {
+                idx = random.nextInt(numberOfPeople);
+            }
+            newPopulation.add(population.get(idx));
+        }
+
+        System.out.print("Po selekcji: ");
+        printPopulation(newPopulation);
+        System.out.println(" ");
+
+        return newPopulation;
+    }
+
     public ArrayList<Solution> chooseBest2(ArrayList<Solution> list, ArrayList<Solution> newList){
         int i = 0;
         for(Solution s : list){
             newList.add(s);
             i++;
-            if(i==170){
+            if(i==3){
                 return newList;
             }
         }
-        return null;
+        return list;
     }
 
     public void printPopulation(ArrayList<Solution> population){
@@ -179,6 +292,27 @@ public class GA {
         return population;
     }
 
+    public ArrayList<Solution> crossover1(double substringLength) {
+        ArrayList<Solution> newPopulation = new ArrayList<>(population);
+        while (newPopulation.size() != numberOfPeople) {
+            //System.out.println("");
+            int idx1 = random.nextInt(population.size());
+            int idx2 = idx1;
+            while (idx2 == idx1) {
+                idx2 = random.nextInt(population.size());
+            }
+            Solution parent1 = population.get(idx1);
+            Solution parent2 = population.get(idx2);
+            Solution childSolution = OBX(parent1,parent2,substringLength);
+            newPopulation.add(childSolution);
+            if (newPopulation.size() == numberOfPeople) break;
+            childSolution = OBX(parent2,parent1,substringLength);
+            newPopulation.add(childSolution);
+        }
+
+        return newPopulation;
+    }
+
     public boolean sameOrder(Solution s1, Solution s2){
         int k = 0;
         for(Integer i : s1.order){
@@ -237,15 +371,31 @@ public class GA {
 
     public void geneticAlgorithm(int numberOfIterations) throws IOException, InterruptedException {
         int i = 0;
-        population = generate(0.1);
-        Thread thread = new Thread();
-        while(true) {
-            population = evaluateAndKill();
-            population = crossover(population, 0.5, 0.1);
-            population = mutation(population, 0.07,0,1);
+
+        population = generate(0.2);
+        Solution best2OPT = getBest();
+        int bestDistance2OPT = best2OPT.totalDistance();
+        Solution best = best2OPT.copy();
+        int bestDistance = bestDistance2OPT;
+        //Thread thread = new Thread();
+        while(i < numberOfIterations) {
+            System.out.println("i = " + i);
+            population = rouletteSelection();
+            population = crossover1(0.1);
+            population = mutation(population, 0.002,0,1);
             addOneToAge(population);
+
+            Solution currBest = getBest();
+            int currBestDistance = currBest.totalDistance();
+            if (currBestDistance < bestDistance) {
+                best = currBest;
+                bestDistance = currBestDistance;
+            }
+            System.out.println("Best: " + bestDistance);
             i++;
         }
+
+        System.out.println("Best 2OPT = " + bestDistance2OPT);
     }
 
     public void addOneToAge(ArrayList<Solution> population){
@@ -254,8 +404,16 @@ public class GA {
         }
     }
 
-    public void getBest(){
-
+    public Solution getBest(){
+        Solution best = new Solution();
+        int bestDistance = Integer.MAX_VALUE;
+        for (Solution s : population) {
+            if (s.totalDistance() < bestDistance) {
+                best = s.copy();
+                bestDistance = s.totalDistance();
+            }
+        }
+        return best;
     }
 
 }
