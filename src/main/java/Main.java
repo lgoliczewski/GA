@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        /*long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         File file = new File("data/br17.atsp");
         Parser parser = new Parser();
         Instance instance = new Instance();
@@ -38,7 +38,7 @@ public class Main {
         Solution s2 = instance.getSolution();
         s1.randomOrder();
         s2.randomOrder();
-        Solution child = ga.PMX(s1, s2);
+        Solution child = ga.OBX(s1, s2, 0.2);
         s1.printOrder();
         s2.printOrder();
         child.printOrder();*/

@@ -377,12 +377,13 @@ public class GA {
         return solution;
     }
 
-    public Solution PMX(Solution firstParent, Solution secondParent){
+    public Solution PMX(Solution firstParent, Solution secondParent, double substringLength){
 
         Solution newChild = firstParent.copy();
-        int first = random.nextInt(instance.getDimension() - 1) + 1;
-        int last = first + 1 + random.nextInt(instance.getDimension() - first);
-        //System.out.println("First = " + first + ", Last = " + last);
+        int first = random.nextInt(instance.getDimension() - (int)(substringLength*instance.getDimension())) + 1;
+        //int last = first + 1 + random.nextInt(instance.getDimension() - first);
+        int last = first + (int)(substringLength*instance.getDimension());
+        System.out.println("First = " + first + ", Last = " + last);
         for (int i = first; i <= last; i++) {
             int m = 1;
             while (!firstParent.order.get(m-1).equals(secondParent.order.get(i-1))) {
