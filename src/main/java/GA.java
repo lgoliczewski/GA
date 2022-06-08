@@ -393,6 +393,153 @@ public class GA {
         return newPopulation;
     }
 
+    public ArrayList<Solution> crossover2(ArrayList<Solution> population, double parentCount) throws InterruptedException {
+        Collections.shuffle(population);
+        int i = 0;
+        int j;
+        int size = population.size();
+        while(i<parentCount*size){
+            Solution parentOne = population.get(i);
+            j=i;
+            Solution parentTwo = population.get(j);
+            while(sameOrder(parentOne, parentTwo)){
+                j++;
+                parentTwo = population.get(j);
+            }
+            Solution childSolution1 = cycleCrossover(parentOne,parentTwo);
+            Solution childSolution2 = cycleCrossover(parentTwo,parentOne);
+            population.add(childSolution1);
+            population.add(childSolution2);
+            i = i + 2;
+        }
+        return population;
+    }
+
+    public Solution cycleCrossover(Solution parentOne, Solution parentTwo) throws InterruptedException {
+        int i = 0;
+        int currHolder = 0;
+        int currHolderPrev = 0;
+        boolean odd = true;
+        int[] childSolution = new int[parentOne.order.size()];
+        while(i<childSolution.length){
+            childSolution[i] = -1;
+            i++;
+        }
+        printArray(childSolution);
+        ArrayList<Integer> visitedCities = new ArrayList<>();
+        Thread thread = new Thread();
+        while(true){
+            //System.out.print("p1 = ");
+            //parentOne.printOrder();
+            //System.out.print("p2 = ");
+            //parentTwo.printOrder();
+            //System.out.print("pc = ");
+            //printArray(childSolution);
+            //System.out.print("vc = ");
+            //printList(visitedCities);
+            //System.out.println("currHolder = " + currHolder + " p1h = " + parentOne.order.get(currHolder) + " p2h = " + parentTwo.order.get(currHolder));
+            //System.out.println(" ");
+            //thread.sleep(30);
+            if(nonZero(childSolution) == childSolution.length){
+                Solution s = parentOne.copy();
+                s.order = arrayToList(childSolution);
+                return s;
+            }
+            int pom;
+            if(odd) {
+                childSolution[currHolder] = parentOne.order.get(currHolder);
+                pom = parentOne.order.get(currHolder);
+            }
+            else{
+                childSolution[currHolder] = parentTwo.order.get(currHolder);
+                pom = parentTwo.order.get(currHolder);
+            }
+            if (visitedCities.contains(pom)){
+                currHolder = nextWithMinusOne(childSolution);
+                //System.out.println("nextwith-1 = " + nextWithMinusOne(childSolution));
+                if(odd){
+                    odd = false;
+                }
+                else{
+                    odd = true;
+                }
+            }
+            else{
+                if(odd) {
+                    visitedCities.add(parentOne.order.get(currHolder));
+                }
+                else{
+                    visitedCities.add(parentTwo.order.get(currHolder));
+                }
+                currHolderPrev = currHolder;
+                currHolder = findPosition(parentTwo.order.get(currHolder),parentOne.order);
+
+            }
+
+        }
+    }
+
+    public void printList(ArrayList<Integer> list){
+        int i = 0;
+        while(i<list.size()){
+            System.out.print(list.get(i) + "       ");
+            i++;
+        }
+        System.out.println(" ");
+    }
+
+    public void printArray(int[] array){
+        int i = 0;
+        while(i<array.length){
+            System.out.print(array[i] + "       ");
+            i++;
+        }
+        System.out.println(" ");
+    }
+
+    public int nonZero(int[] array){
+        int i = 0;
+        int c = 0;
+        while(i<array.length){
+            if(array[i]!=-1){
+                c++;
+            }
+            i++;
+        }
+        return c;
+    }
+    public int findPosition(int value, ArrayList<Integer> arrayList){
+        int i = 0;
+        while(i<arrayList.size()){
+            if(arrayList.get(i) == value){
+                return i;
+            }
+            i++;
+        }
+        return -2;
+    }
+
+    public ArrayList<Integer> arrayToList(int[] array){
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        int i = 0;
+        while(i<array.length){
+            arrayList.add(array[i]);
+            i++;
+        }
+        return arrayList;
+    }
+
+    public int nextWithMinusOne(int[] childSolution){
+        int i = 0;
+        while(i<childSolution.length){
+            if(childSolution[i]==-1){
+                return i;
+            }
+            i++;
+        }
+        return i;
+    }
+
     public boolean sameOrder(Solution s1, Solution s2){
         int k = 0;
         for(Integer i : s1.order){
@@ -464,6 +611,24 @@ public class GA {
         return population;
     }
 
+    public Solution TWORS(Solution s){
+        int k = 1 + random.nextInt();
+        s = algorithmHolder.invert(s,k,instance.getDimension());
+        return s;
+    }
+
+    public ArrayList<Solution> TWORSmutation(ArrayList<Solution> population, double probabilityOfMutation){
+        for(Solution s : population){
+            double value = random.nextDouble();
+            if(value<probabilityOfMutation){
+                TWORS(s);
+            }
+        }
+        return population;
+    }
+
+
+
     public void geneticAlgorithm(int numberOfIterations) throws IOException, InterruptedException {
 
         Solution ExNN = algorithmHolder.ExNearestNeighbor(instance);
@@ -472,7 +637,7 @@ public class GA {
 
         int i = 0;
 
-        population = generate(0.2);
+        population = generate(0.1);
         Solution best2OPT = getBest();
         int bestDistance2OPT = best2OPT.totalDistance();
         Solution best = best2OPT.copy();

@@ -63,8 +63,8 @@ public class Solution implements Serializable {
 
     public void printOrder(){
         int i = 0;
-        while(i<size){
-            System.out.print(order.get(i) + " ");
+        while(i<order.size()){
+            System.out.print(order.get(i) + "       ");
             i++;
         }
         System.out.println(" ");
