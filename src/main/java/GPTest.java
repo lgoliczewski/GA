@@ -24,7 +24,7 @@ public class GPTest {
         int k = 0;
         while(k<=20) {
             File outFile = new File("GPTest" + pom + k + ".csv");
-            GA ga = new GA(instance, 80);
+            GA ga = new GA(instance, 35);
             ga.geneticAlgorithm(outFile, 60000, "PMX", "roulette", "invert", 0.1,(double)k/100,0.002,0);
             k = k + 5;
         }

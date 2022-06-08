@@ -57,7 +57,7 @@ public class GA {
             population = rouletteRankSelection();
         }
         else if (Objects.equals(selectionType, "tournament")) {
-            population = tournamentSelection(0.5);
+            population = tournamentSelection(0.8);
         }
         return population;
     }
@@ -163,7 +163,7 @@ public class GA {
     public ArrayList<Solution> tournamentSelection(double prob) {
 
         ArrayList<Solution> newPopulation = new ArrayList<>();
-        int eliteN = 1;
+        int eliteN = 0;
         for (int i = 0; i < eliteN; i++) {
             newPopulation.add(population.get(i));
         }
@@ -176,7 +176,7 @@ public class GA {
         Collections.shuffle(noElitePopulation);
         int tournamentSize = 2;
         ArrayList<Solution> tournamentPopulation = new ArrayList<>();
-        int winners = numberOfPeople/10;
+        int winners = numberOfPeople/2;
         int n = 0;
         for (int i = 0; i < numberOfPeople - eliteN; i++) {
             tournamentPopulation.add(noElitePopulation.get(i));
@@ -400,10 +400,10 @@ public class GA {
         for(Solution s : population){
             double value = random.nextDouble();
             if(value<probabilityOfMutation) {
-                int i = random.nextInt(instance.getDimension() + 1);
-                int j = random.nextInt(instance.getDimension() + 1);
+                int i = 1 + random.nextInt(instance.getDimension());
+                int j = 1 + random.nextInt(instance.getDimension());
                 while (i == j || j-i == 1 || i-j == instance.getDimension() - 1) {
-                    j = random.nextInt(instance.getDimension() + 1);
+                    j = 1 + random.nextInt(instance.getDimension());
                 }
                 s = algorithmHolder.insert(s, i, j);
             }

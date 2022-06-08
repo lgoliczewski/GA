@@ -15,7 +15,11 @@ public class Main {
 
        Tests t = new Tests();
        t.symetricGenerationTest();
+       //t.symetricGenerationTest2();
        //t.asymetricGenerationTest();
+
+        //MainTest mt = new MainTest();
+        //mt.test("bays29.tsp","TSP");
 
         /*Solution s1 = instance.getSolution();
         Solution s2 = instance.getSolution();

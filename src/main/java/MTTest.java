@@ -11,12 +11,12 @@ public class MTTest extends Thread{
     public void run()
     {
         try {
-            GPTest test = new GPTest();
-            test.test(fileName,"TSP");
+            MainTest mainTest = new MainTest();
+            mainTest.test(fileName,"ATSP");
         }
         catch (Exception e) {
             // Throwing an exception
-            System.out.println("Exception is caught");
+            e.printStackTrace();
         }
     }
 }

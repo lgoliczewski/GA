@@ -90,6 +90,12 @@ public class Tests {
         mtTest8.start();
         MTTest mtTest9 = new MTTest("gr120.tsp");
         mtTest9.start();
+        MTTest mtTest10 = new MTTest("ry48p.atsp");
+        mtTest10.start();
+        MTTest mtTest11 = new MTTest("kro124p.atsp");
+        mtTest11.start();
+        MTTest mtTest12 = new MTTest("ftv70.atsp");
+        mtTest12.start();
     }
 
     public void asymetricGenerationTest(){
@@ -114,11 +120,8 @@ public class Tests {
     }
 
     public void asymetricGenerationTest2(){
-        MTTest mtTest7 = new MTTest("ry48p.atsp");
-        mtTest7.start();
-        MTTest mtTest8 = new MTTest("kro124p.atsp");
-        mtTest8.start();
-        MTTest mtTest9 = new MTTest("ftv70.atsp");
-        mtTest9.start();
+
     }
+
+
 }
