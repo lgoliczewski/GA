@@ -66,4 +66,59 @@ public class Tests {
         }
         System.out.println(" ");
     }
+
+    public void symetricGenerationTest(){
+        MTTest mtTest1 = new MTTest("bays29.tsp");
+        mtTest1.start();
+        MTTest mtTest2 = new MTTest("eil51.tsp");
+        mtTest2.start();
+        MTTest mtTest3 = new MTTest("eil76.tsp");
+        mtTest3.start();
+        MTTest mtTest4 = new MTTest("eil101.tsp");
+        mtTest4.start();
+        MTTest mtTest5 = new MTTest("ch130.tsp");
+        mtTest5.start();
+        MTTest mtTest6 = new MTTest("kroA100.tsp");
+        mtTest6.start();
+
+    }
+
+    public void symetricGenerationTest2(){
+        MTTest mtTest7 = new MTTest("gr48.tsp");
+        mtTest7.start();
+        MTTest mtTest8 = new MTTest("lin105.tsp");
+        mtTest8.start();
+        MTTest mtTest9 = new MTTest("gr120.tsp");
+        mtTest9.start();
+    }
+
+    public void asymetricGenerationTest(){
+        MTTest mtTest1 = new MTTest("ft53.atsp");
+        mtTest1.start();
+        MTTest mtTest2 = new MTTest("ft70.atsp");
+        mtTest2.start();
+        MTTest mtTest3 = new MTTest("ftv33.atsp");
+        mtTest3.start();
+        MTTest mtTest4 = new MTTest("ftv64.atsp");
+        mtTest4.start();
+        MTTest mtTest5 = new MTTest("ftv47.atsp");
+        mtTest5.start();
+        MTTest mtTest6 = new MTTest("p43.atsp");
+        mtTest6.start();
+        MTTest mtTest7 = new MTTest("ry48p.atsp");
+        mtTest7.start();
+        MTTest mtTest8 = new MTTest("kro124p.atsp");
+        mtTest8.start();
+        MTTest mtTest9 = new MTTest("ftv70.atsp");
+        mtTest9.start();
+    }
+
+    public void asymetricGenerationTest2(){
+        MTTest mtTest7 = new MTTest("ry48p.atsp");
+        mtTest7.start();
+        MTTest mtTest8 = new MTTest("kro124p.atsp");
+        mtTest8.start();
+        MTTest mtTest9 = new MTTest("ftv70.atsp");
+        mtTest9.start();
+    }
 }

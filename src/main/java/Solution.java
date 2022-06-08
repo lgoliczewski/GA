@@ -210,7 +210,6 @@ public class Solution implements Serializable {
 
     public void updateDistance(){
         this.totalDistance = this.totalDistance();
-        //System.out.print(this.totalDistance + " ");
     }
 
     public int getTotalDistance(){
