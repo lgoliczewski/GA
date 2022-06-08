@@ -13,13 +13,25 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        /*File file = new File("data/pr144.tsp");
+        /*long start = System.currentTimeMillis();
+        File file = new File("data/br17.atsp");
         Parser parser = new Parser();
         Instance instance = new Instance();
         parser.setParameters(file, instance);
         GA ga = new GA(instance,100);
-        ga.geneticAlgorithm(3000000);
+        ga.geneticAlgorithm(30000);
+        long finish = System.currentTimeMillis();
+        System.out.println("time = " + (finish - start));
 
+        /*int n = 8;
+        for(int i = 0; i<n; i++){
+            System.out.println(":)");
+            MTTest mtTest = new MTTest();
+            mtTest.start();
+        }*/
+
+       Tests t = new Tests();
+       t.cycleTest();
 
 
         /*Solution s1 = instance.getSolution();

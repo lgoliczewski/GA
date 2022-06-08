@@ -109,9 +109,9 @@ public class GA {
     }
 
     public ArrayList<Solution> rouletteSelection() {
-        System.out.print("Przed selekcją: ");
+        //System.out.print("Przed selekcją: ");
         population.sort(Comparator.comparingInt(Solution::getTotalDistance));
-        printPopulation(population);
+        //printPopulation(population);
 
         long sum = 0;
         for (Solution s : population) {
@@ -151,17 +151,17 @@ public class GA {
             newPopulation.add(chosen);
         }
 
-        System.out.print("Po selekcji: ");
-        printPopulation(newPopulation);
-        System.out.println(" ");
+        //System.out.print("Po selekcji: ");
+        //printPopulation(newPopulation);
+        //System.out.println(" ");
 
         return newPopulation;
     }
 
     public ArrayList<Solution> rouletteRankSelection() {
-        System.out.print("Przed selekcją: ");
+        //System.out.print("Przed selekcją: ");
         population.sort(Comparator.comparingInt(Solution::getTotalDistance));
-        printPopulation(population);
+        //printPopulation(population);
 
         long sum = (long) (1 + numberOfPeople) * numberOfPeople / 2 + 0L * numberOfPeople;
 
@@ -207,17 +207,17 @@ public class GA {
             newPopulation.add(population.get(idx));
         }
 
-        System.out.print("Po selekcji: ");
-        printPopulation(newPopulation);
-        System.out.println(" ");
+        //System.out.print("Po selekcji: ");
+        //printPopulation(newPopulation);
+        //System.out.println(" ");
 
         return newPopulation;
     }
 
     public ArrayList<Solution> tournamentSelection(double prob) {
-        System.out.print("Przed selekcją: ");
+        //System.out.print("Przed selekcją: ");
         population.sort(Comparator.comparingInt(Solution::totalDistance));
-        printPopulation(population);
+        //printPopulation(population);
 
         ArrayList<Solution> newPopulation = new ArrayList<>();
         //int eliteN = (int)Math.floor(Math.pow(numberOfPeople, 1.0/5.0));
@@ -299,7 +299,7 @@ public class GA {
         System.out.println(" ");
     }
 
-    public Solution OBX(Solution firstParent, Solution secondParent, double substringLength){
+    public Solution OX(Solution firstParent, Solution secondParent, double substringLength){
 
         double rand = random.nextDouble();
         double value = (1-substringLength)*rand;
@@ -317,6 +317,7 @@ public class GA {
             k++;
         }
 
+
         k = 0;
         for(Integer i : order){
             if(i==null) {
@@ -329,6 +330,50 @@ public class GA {
         }
         Solution solution = instance.getSolution();
         solution.order = order;
+        System.out.print("s = ");
+        solution.printOrder();
+        return solution;
+    }
+
+    public Solution OBX(Solution firstParent, Solution secondParent, double substringLength){
+
+        double rand = random.nextDouble();
+        ArrayList<Integer> order = new ArrayList<>();
+        ArrayList<Integer> usedCities = new ArrayList<>();
+        System.out.print("fp = ");
+        firstParent.printOrder();
+        System.out.print("sp = ");
+        secondParent.printOrder();
+        int k = 0;
+        while(k<instance.getDimension()) {
+            order.add(null);
+            k++;
+        }
+        k = 0;
+        while(k<substringLength*instance.getDimension()) {
+            int pos = random.nextInt(instance.getDimension());
+            if (!contains(usedCities, firstParent.order.get(pos))) {
+                usedCities.add(firstParent.order.get(pos));
+                order.set(pos,firstParent.order.get(pos));
+                k++;
+            }
+        }
+        System.out.print("used = ");
+        printList(usedCities);
+        k = 0;
+        for(Integer i : order){
+            if(i==null) {
+                while(contains(usedCities,secondParent.order.get(k))){
+                    k++;
+                }
+                order.set(order.indexOf(i),secondParent.order.get(k));
+                k++;
+            }
+        }
+        Solution solution = instance.getSolution();
+        solution.order = order;
+        System.out.print("s = ");
+        solution.printOrder();
         return solution;
     }
 
@@ -363,7 +408,7 @@ public class GA {
                 j++;
                 parentTwo = population.get(j);
             }
-            Solution childSolution = OBX(parentOne,parentTwo,substringLength);
+            Solution childSolution = OX(parentOne,parentTwo,substringLength);
             population.add(childSolution);
             i = i + 2;
         }
@@ -381,11 +426,11 @@ public class GA {
             }
             Solution parent1 = population.get(idx1);
             Solution parent2 = population.get(idx2);
-            Solution childSolution = OBX(parent1,parent2,substringLength);
+            Solution childSolution = OX(parent1,parent2,substringLength);
             //Solution childSolution = PMX(parent1,parent2);
             newPopulation.add(childSolution);
             if (newPopulation.size() == numberOfPeople) break;
-            childSolution = OBX(parent2,parent1,substringLength);
+            childSolution = OX(parent2,parent1,substringLength);
             //childSolution = PMX(parent2,parent1);
             newPopulation.add(childSolution);
         }
@@ -415,6 +460,8 @@ public class GA {
         return population;
     }
 
+
+
     public Solution cycleCrossover(Solution parentOne, Solution parentTwo) throws InterruptedException {
         int i = 0;
         int currHolder = 0;
@@ -429,17 +476,17 @@ public class GA {
         ArrayList<Integer> visitedCities = new ArrayList<>();
         Thread thread = new Thread();
         while(true){
-            //System.out.print("p1 = ");
-            //parentOne.printOrder();
-            //System.out.print("p2 = ");
-            //parentTwo.printOrder();
-            //System.out.print("pc = ");
-            //printArray(childSolution);
-            //System.out.print("vc = ");
-            //printList(visitedCities);
-            //System.out.println("currHolder = " + currHolder + " p1h = " + parentOne.order.get(currHolder) + " p2h = " + parentTwo.order.get(currHolder));
-            //System.out.println(" ");
-            //thread.sleep(30);
+            System.out.print("p1 = ");
+            parentOne.printOrder();
+            System.out.print("p2 = ");
+            parentTwo.printOrder();
+            System.out.print("pc = ");
+            printArray(childSolution);
+            System.out.print("vc = ");
+            printList(visitedCities);
+            System.out.println("currHolder = " + currHolder + " p1h = " + parentOne.order.get(currHolder) + " p2h = " + parentTwo.order.get(currHolder));
+            System.out.println(" ");
+            thread.sleep(30);
             if(nonZero(childSolution) == childSolution.length){
                 Solution s = parentOne.copy();
                 s.order = arrayToList(childSolution);
@@ -653,10 +700,10 @@ public class GA {
                 best = currBest;
                 bestDistance = currBestDistance;
             }
-            System.out.println("Best: " + bestDistance);
+            //System.out.println("Best: " + bestDistance);
             i++;
 
-            System.out.println("i = " + i);
+            //System.out.println("i = " + i);
             population = rouletteSelection();
             population = crossover1(0.1);
             population = mutationInvert(population, 0.002,0,1);

@@ -10,7 +10,7 @@ public class Tests {
 
     public void runTests() throws IOException {
 
-        File file = new File("data/u574.tsp");
+        File file = new File("data/br17.tsp");
         Parser parser = new Parser();
         AlgorithmHolder a = new AlgorithmHolder();
         Instance instance = new Instance();
@@ -54,7 +54,7 @@ public class Tests {
         solution2.order = order2;
         solution2.printOrder();
 
-        Solution solution3 = ga.cycleCrossover(solution2, solution1);
+        Solution solution3 = ga.OBX(solution1, solution2, 0.5);
         solution3.printOrder();
     }
 
