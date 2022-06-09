@@ -15,7 +15,7 @@ public class Main {
 
        Tests t = new Tests();
        //t.symetricGenerationTest();
-       t.symetricGenerationTest2();
+       t.symetricGenerationTest();
        //t.asymetricGenerationTest();
 
         //MainTest mt = new MainTest();
