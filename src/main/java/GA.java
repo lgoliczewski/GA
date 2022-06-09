@@ -53,7 +53,7 @@ public class GA {
     public ArrayList<Solution> selection(String selectionType) {
         if (Objects.equals(selectionType, "roulette")) {
             population = rouletteSelection();
-        } else if (Objects.equals(selectionType, "rouletterank")) {
+        } else if (Objects.equals(selectionType, "rouletteRank")) {
             population = rouletteRankSelection();
         }
         else if (Objects.equals(selectionType, "tournament")) {
@@ -128,10 +128,8 @@ public class GA {
         double temp = 0;
         for (int i = 0; i < numberOfPeople - eliteN; i++) {
             divs[i] = temp;
-            System.out.print(divs[i] + " ");
             temp += (numberOfPeople - eliteN - i + 0)/(double)sum;
         }
-        System.out.println(" ");
         for (int i = eliteN; i < numberOfPeople*4/10; i++) {
             Solution chosen = new Solution();
             do {
