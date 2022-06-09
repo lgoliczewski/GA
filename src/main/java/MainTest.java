@@ -31,10 +31,7 @@ public class MainTest {
                         String mutationType = ":)";
                         double generation2OPT = -1;
 
-                        if(i==1){
-                            crossType = "OX";
-                        }
-                        else if(i == 2){
+                        if(i == 2){
                             crossType = "OBX";
                         }
                         else if(i == 3){
@@ -69,24 +66,24 @@ public class MainTest {
                         }
 
                         double ppb1 = 0.001 + 0.019*random.nextDouble();
-                        int size1 = 10 + random.nextInt(90);
+                        int size1 = 50 + random.nextInt(50);
 
                         double ppb2 = 0.001 + 0.019*random.nextDouble();
-                        int size2 = 10 + random.nextInt(90);
+                        int size2 = 50 + random.nextInt(50);
 
                         File outFile = new File(sFile + "/" + crossType + " " +  selectionType  + " " + mutationType + " g2opt = " + generation2OPT + " ppb = " + ((int)(ppb1*1000)) + " size = " + size1 + ".csv");
                         GA ga = new GA(instance,size1);
                         ga.geneticAlgorithm(outFile,60000,crossType,selectionType,mutationType,0.1,generation2OPT,ppb1,0);
 
-                        outFile = new File(sFile + "/" +crossType + " " +  selectionType  + " " + mutationType + " g2opt = " + generation2OPT + " ppb = " + ((int)(ppb2*1000)) + " size = " + size1 + " nf = " + sFile + ".csv");
+                        outFile = new File(sFile + "/" +crossType + " " +  selectionType  + " " + mutationType + " g2opt = " + generation2OPT + " ppb = " + ((int)(ppb2*1000)) + " size = " + size1 + ".csv");
                         ga = new GA(instance,size1);
                         ga.geneticAlgorithm(outFile,60000,crossType,selectionType,mutationType,0.1,generation2OPT,ppb2,0);
 
-                        outFile = new File(sFile + "/" +crossType + " " +  selectionType  + " " + mutationType + " g2opt = " + generation2OPT + " ppb = " + ((int)(ppb1*1000)) + " size = " + size2 + " nf = " + sFile + ".csv");
+                        outFile = new File(sFile + "/" +crossType + " " +  selectionType  + " " + mutationType + " g2opt = " + generation2OPT + " ppb = " + ((int)(ppb1*1000)) + " size = " + size2 + ".csv");
                         ga = new GA(instance,size2);
                         ga.geneticAlgorithm(outFile,60000,crossType,selectionType,mutationType,0.1,generation2OPT,ppb1,0);
 
-                        outFile = new File(sFile + "/" +crossType + " " +  selectionType  + " " + mutationType + " g2opt = " + generation2OPT + " ppb = " + ((int)(ppb2*1000)) + " size = " + size2 + " nf = " + sFile + ".csv");
+                        outFile = new File(sFile + "/" +crossType + " " +  selectionType  + " " + mutationType + " g2opt = " + generation2OPT + " ppb = " + ((int)(ppb2*1000)) + " size = " + size2 + ".csv");
                         ga = new GA(instance,size2);
                         ga.geneticAlgorithm(outFile,60000,crossType,selectionType,mutationType,0.1,generation2OPT,ppb2,0);
 

@@ -14,8 +14,8 @@ public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
        Tests t = new Tests();
-       t.symetricGenerationTest();
-       //t.symetricGenerationTest2();
+       //t.symetricGenerationTest();
+       t.symetricGenerationTest2();
        //t.asymetricGenerationTest();
 
         //MainTest mt = new MainTest();

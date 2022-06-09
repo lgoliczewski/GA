@@ -90,11 +90,11 @@ public class Tests {
         mtTest8.start();
         MTTest mtTest9 = new MTTest("gr120.tsp");
         mtTest9.start();
-        MTTest mtTest10 = new MTTest("ry48p.atsp");
+        MTTest mtTest10 = new MTTest("kroD100.tsp");
         mtTest10.start();
-        MTTest mtTest11 = new MTTest("kro124p.atsp");
+        MTTest mtTest11 = new MTTest("pr124.tsp");
         mtTest11.start();
-        MTTest mtTest12 = new MTTest("ftv70.atsp");
+        MTTest mtTest12 = new MTTest("pr107.tsp");
         mtTest12.start();
     }
 
