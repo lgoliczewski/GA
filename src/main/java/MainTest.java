@@ -42,7 +42,7 @@ public class MainTest {
                             selectionType = "roulette";
                         }
                         else if(j==2){
-                            selectionType = "tournament";
+                            selectionType = "rouletteRank";
                         }
 
                         if(k==1){
